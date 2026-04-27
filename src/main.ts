@@ -57,23 +57,22 @@ function render() {
     btn.textContent = answer;
 
     btn.onclick = () => {
-      // disable all buttons after click
+   
       const allButtons = answersEl.querySelectorAll("button");
       allButtons.forEach(b => (b as HTMLButtonElement).disabled = true);
 
       if (i === q.correct) {
         score++;
         feedbackEl.textContent = "✅ Correct!";
-        btn.style.background = "#4ade80"; // green
+        btn.style.background = "#4ade80"; 
       } else {
         feedbackEl.textContent = "❌ Wrong!";
-        btn.style.background = "#f87171"; // red
+        btn.style.background = "#f87171"; 
 
-        // highlight correct answer
         allButtons[q.correct].classList.add("correct");
       }
 
-      // move to next question after delay
+  
       setTimeout(() => {
         index++;
         render();
