@@ -45,19 +45,39 @@ function render() {
     <div class="quiz">
       <h2>${q.question}</h2>
       <div id="answers"></div>
+      <p id="feedback"></p>
     </div>
   `;
 
   const answersEl = document.getElementById("answers")!;
+  const feedbackEl = document.getElementById("feedback")!;
 
   q.answers.forEach((answer, i) => {
     const btn = document.createElement("button");
     btn.textContent = answer;
 
     btn.onclick = () => {
-      if (i === q.correct) score++;
-      index++;
-      render();
+      // disable all buttons after click
+      const allButtons = answersEl.querySelectorAll("button");
+      allButtons.forEach(b => (b as HTMLButtonElement).disabled = true);
+
+      if (i === q.correct) {
+        score++;
+        feedbackEl.textContent = "✅ Correct!";
+        btn.style.background = "#4ade80"; // green
+      } else {
+        feedbackEl.textContent = "❌ Wrong!";
+        btn.style.background = "#f87171"; // red
+
+        // highlight correct answer
+        allButtons[q.correct].classList.add("correct");
+      }
+
+      // move to next question after delay
+      setTimeout(() => {
+        index++;
+        render();
+      }, 1000);
     };
 
     answersEl.appendChild(btn);
